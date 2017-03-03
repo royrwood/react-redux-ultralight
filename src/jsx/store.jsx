@@ -29,10 +29,12 @@ const removeUserImpl = function(state, user) {
 };
 
 // http://redux.js.org/docs/basics/Reducers.html
-function usersReducer(state = INITIAL_USERS, action) {
+function usersReducer(state = { ...state, users:INITIAL_USERS }, action) {
     if (action.type === ADD_USER) {
-        return { ...state, [action.user.id]: action.user.name};
+        return { ...state, users: { ...state.users, [action.user.id]: action.user.name }};
     }
+
+    return state;
 };
 
 

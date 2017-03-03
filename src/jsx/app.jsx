@@ -26,7 +26,7 @@ class AppComponent extends React.Component {
                 <h1>It's Alive!</h1>
                 <br/>
                 <UserList users={this.props.users}/>
-                <button type="button" onClick={this.props.addUserFunc}>Add User</button>
+                <button type="button" onClick={addUser}>Add User</button>
             </div>
         )
     }
@@ -37,12 +37,5 @@ const mapStateToProps = function(store) {
         users: store.usersState
     };
 }
-const mapDispatchToProps = function(dispatch, ownProps) {
-    return {
-        addUserFunc: function() {
-            dispatch(addUser({ id:'newbie', name: 'New User'}));
-        }
-    }
-}
 
-export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);
+export const App = connect(mapStateToProps)(AppComponent);

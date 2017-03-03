@@ -5,7 +5,7 @@ import { store, addUser } from './store.jsx';
 import { App } from './app.jsx';
 
 
-store.dispatch(addUser({ id:'chris', name: 'Chris'}));
+addUser({ id:'chris', name: 'Chris'});
 
 const appContent = (
         <Provider store={store}>
