@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { createAction, createReducer } from 'redux-act';
 
-// Create actions
+// Create action creator functions
 export const addUser = createAction('Add a user');
 export const removeUser = createAction('Remove a user');
 export const addBike = createAction('Add a bike');
