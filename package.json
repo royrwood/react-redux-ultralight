@@ -6,7 +6,7 @@
   "author": "Roy Wood",
   "license": "ISC",
   "scripts": {
-    "start": "webpack-dev-server --progress --profile --colors --content-base build/",
+    "start": "webpack-dev-server --progress --profile --colors --content-base build/ --port 9999",
     "build": "webpack --config webpack.config.js --progress --profile --colors"
   },
   "dependencies": {

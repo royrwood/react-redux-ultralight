@@ -1,14 +1,17 @@
 import { createStore, combineReducers } from 'redux';
-import { createAction, createReducer } from 'redux-act';
+
+// Define Action enums
+const ADD_USER = 'ADD_USER';
+const REMOVE_USER = 'REMOVE_USER';
+const ADDD_BIKE = 'ADD_BIKE';
 
 // Create action creator functions
-export const addUser = createAction('Add a user');
-export const removeUser = createAction('Remove a user');
-export const addBike = createAction('Add a bike');
-
+export function addUser(user) {
+    store.dispatch({ type:ADD_USER, user:user })
+};
 
 // Create Users action implementations and reducer
-const intialUsers = {
+const INITIAL_USERS = {
     roy: 'Roy',
     ben: 'Ben',
     dan: 'Dan'
@@ -25,31 +28,33 @@ const removeUserImpl = function(state, user) {
     return cloneState;
 };
 
-const usersReducer = createReducer({
-    [addUser]: addUserImpl,
-    [removeUser]: removeUserImpl,
-}, intialUsers);
+// http://redux.js.org/docs/basics/Reducers.html
+function usersReducer(state = INITIAL_USERS, action) {
+    if (action.type === ADD_USER) {
+        return { ...state, [action.user.id]: action.user.name};
+    }
+};
 
 
 // Create Bikes action implementations and reducer
 
-const initialBikes = {
-    trek: 'Top Fuel 8',
-}
-const addBikeImpl = function(state, bikeObj) {
-    return { ...state, [bikeObj.id]: bikeObj.name};
-}
-const bikesReducer = createReducer({
-    [addBike]: addBikeImpl,
-}, initialBikes);
+// const initialBikes = {
+//     trek: 'Top Fuel 8',
+// }
+// const addBikeImpl = function(state, bikeObj) {
+//     return { ...state, [bikeObj.id]: bikeObj.name};
+// }
+// const bikesReducer = createReducer({
+//     [addBike]: addBikeImpl,
+// }, initialBikes);
 
 
-// Create full reducer
-const reducers = combineReducers({
-    usersState: usersReducer,
-    bikesState: bikesReducer
-});
+// // Create full reducer
+// const reducers = combineReducers({
+//     usersState: usersReducer,
+//     bikesState: bikesReducer
+// });
 
 
 // Create data store
-export const store = createStore(reducers);
+export const store = createStore(usersReducer);
