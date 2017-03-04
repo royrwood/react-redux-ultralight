@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addUser } from './store.jsx';
+import { addUser, removeUser } from './store.jsx';
 
 
 class UserList extends React.Component {
@@ -18,6 +18,20 @@ class UserList extends React.Component {
     }
 }
 
+class BikeList extends React.Component {
+    render() {
+        const bikeRows = [];
+        for (let uid in this.props.bikes) {
+            bikeRows.push(<li key={uid}>{this.props.bikes[uid]}</li>);
+        }
+
+        return(
+            <ul>
+                {bikeRows}
+            </ul>
+        );
+    }
+}
 
 class AppComponent extends React.Component {
     constructor(props) {
@@ -26,6 +40,7 @@ class AppComponent extends React.Component {
         this.state = { count: 0 };
 
         this.onAddClick = this.onAddClick.bind(this);
+        this.onRemoveClick = this.onRemoveClick.bind(this);
     }
 
     onAddClick(event) {
@@ -33,13 +48,26 @@ class AppComponent extends React.Component {
         this.setState({count: this.state.count+1});
     }
 
+    onRemoveClick(event) {
+        if (this.state.count > 0) {
+            removeUser({id: `newbie-${this.state.count - 1}`, name: `New Guy #${this.state.count - 1}`});
+            this.setState({count: this.state.count - 1});
+        }
+    }
+
     render() {
         return (
             <div>
                 <h1>It's Alive!</h1>
                 <br/>
+                <p>Users:</p>
                 <UserList users={this.props.users}/>
+                <br/>
+                <p>Bikes:</p>
+                <BikeList bikes={this.props.bikes}/>
+                <br/>
                 <button type="button" onClick={this.onAddClick}>Add User</button>
+                <button type="button" onClick={this.onRemoveClick}>Remove User</button>
             </div>
         )
     }
@@ -47,7 +75,8 @@ class AppComponent extends React.Component {
 
 const mapStateToProps = function(store) {
     return {
-        users: store.usersState
+        users: store.users,
+        bikes: store.bikes
     };
 };
 

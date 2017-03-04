@@ -1,37 +1,28 @@
 import { createStore, combineReducers } from 'redux';
 
-// Define Action enums
+// Define the strings we will use as the identifying 'type' property for our Actions
 const ADD_USER = 'ADD_USER';
 const REMOVE_USER = 'REMOVE_USER';
 const ADD_BIKE = 'ADD_BIKE';
 
-// Create action functions
-export function addUser(user) {
-    store.dispatch({ type:ADD_USER, user:user })
-}
-
-// Create Users action implementations and reducer
+// Define the initial state of the users subtree of the state
 const INITIAL_USERS = {
     roy: 'Roy',
     ben: 'Ben',
     dan: 'Dan'
 };
 
-// const addUserImpl = function(state, userObj) {
-//     return { ...state, [userObj.id]: userObj.name};
-// };
-// const removeUserImpl = function(state, user) {
-//     var cloneState = Object.assign({}, state);
-//     if (cloneState.hasOwnProperty(user.id)) {
-//         delete cloneState[user.id];
-//     }
-//     return cloneState;
-// };
-
-// http://redux.js.org/docs/basics/Reducers.html
+// Define the reducer that manages state for the users subtree of the state
 function usersReducer(state = INITIAL_USERS, action) {
     if (action.type === ADD_USER) {
         const newState = { ...state, [action.user.id]: action.user.name };
+        return newState;
+    }
+    else if (action.type === REMOVE_USER) {
+        const newState = Object.assign({}, state);
+        if (newState.hasOwnProperty(action.user.id)) {
+            delete newState[action.user.id];
+        }
         return newState;
     }
     else {
@@ -39,24 +30,41 @@ function usersReducer(state = INITIAL_USERS, action) {
     }
 }
 
-// Create Bikes action implementations and reducer
 
-// const initialBikes = {
-//     trek: 'Top Fuel 8',
-// }
-// const addBikeImpl = function(state, bikeObj) {
-//     return { ...state, [bikeObj.id]: bikeObj.name};
-// }
-// const bikesReducer = createReducer({
-//     [addBike]: addBikeImpl,
-// }, initialBikes);
+// Define the initial state of the bikes subtree of the state
+const INITIAL_BIKES = {
+    trek: 'Top Fuel 8',
+};
+
+// Define the reducer that manages state for the bikes subtree of the state
+function bikesReducer(state = INITIAL_BIKES, action) {
+    if (action.type === ADD_BIKE) {
+        const newState = { ...state, [action.bike.id]: action.bike.name };
+        return newState;
+    }
+    else {
+        return state;
+    }
+}
 
 
-// Create full reducer
+// Create the full reducer for the store
 const reducers = combineReducers({
-    usersState: usersReducer,
+    users: usersReducer,
+    bikes: bikesReducer
 });
 
-
-// Create data store
+// Create the data store
 export const store = createStore(reducers);
+
+
+// Define and export the action functions that create and dispatch store actions
+export function addUser(user) {
+    store.dispatch({ type:ADD_USER, user:user })
+}
+export function removeUser(user) {
+    store.dispatch({ type:REMOVE_USER, user:user })
+}
+export function addBike(bike) {
+    store.dispatch({ type:ADD_BIKE, bike:bike })
+}
