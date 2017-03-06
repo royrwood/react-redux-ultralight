@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addUser, removeUser } from './store.jsx';
+import { addUser, removeUser, addUserActionCreator } from './store.jsx';
 
 
 class UserList extends React.Component {
@@ -66,7 +66,7 @@ class AppComponent extends React.Component {
                 <p>Bikes:</p>
                 <BikeList bikes={this.props.bikes}/>
                 <br/>
-                <button type="button" onClick={this.onAddClick}>Add User</button>
+                <button type="button" onClick={() => this.props.addUser({id:'test', name:'Test User'})}>Add User</button>
                 <button type="button" onClick={this.onRemoveClick}>Remove User</button>
             </div>
         )
@@ -79,5 +79,8 @@ const mapStateToProps = function(store) {
         bikes: store.bikes
     };
 };
+const mapDispatchToProps = {
+    addUser: addUserActionCreator
+}
 
-export const App = connect(mapStateToProps)(AppComponent);
+export const App = connect(mapStateToProps, mapDispatchToProps)(AppComponent);

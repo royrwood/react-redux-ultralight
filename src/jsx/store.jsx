@@ -58,6 +58,10 @@ const reducers = combineReducers({
 export const store = createStore(reducers);
 
 
+export function addUserActionCreator(user) {
+    return { type:ADD_USER, user:user };
+}
+
 // Define and export the action functions that create and dispatch store actions
 export function addUser(user) {
     store.dispatch({ type:ADD_USER, user:user })
